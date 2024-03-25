@@ -1,0 +1,106 @@
+<form action="{% if in_system %} {% url 'contests:manage_system' %} {% else %} {% url 'contests:manage_class' %} {% endif %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="editor" value="contest">
+  <input type="hidden" name="id" value="{{contest.id}}">
+  {% if mode == "Editing" %}<input type="hidden" name="editing" value="">{% endif %}
+  <!-- modal header -->
+  <div class="modal-header">
+    <h2 class="primary-text">{{mode}} Contest</h2>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Name:
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="text" name="contest_name" value="{{contest.name}}" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Description:
+            </div>
+            <div class="col-8">
+              <textarea class="primary-background secondary-text" name="contest_description" rows="8" cols="40" class="editor-textarea" >{{contest.description}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Start Time:
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="datetime-local" name="start_time" value="{{contest.start_time|date:'Y-m-d'}}T{{contest.start_time|time:'H:i:s'}}" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              End Time:
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="datetime-local" name="end_time" value="{{contest.end_time|date:'Y-m-d'}}T{{contest.end_time|time:'H:i:s'}}" required>
+            </div>
+          </div>
+
+          <!--<div class="row">
+            <div class="col-4 secondary-text">
+              Freeze Time:
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="datetime-local" name="freeze_time" value="{{contest.freeze_time|date:'Y-m-d'}}T{{contest.freeze_time|time:'H:i:s'}}">
+            </div>
+          </div>-->
+
+          <div class="row">
+            <div class="co-4 secondary-text">
+              Show Names On Scoreboard:
+            </div>
+            <div class="col-8">
+              <input type="checkbox" name="show_names" {% if contest.display_names %}checked{% endif %}>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Show Problem Difficulty:
+            </div>
+            <div class="col-8">
+              <input type="checkbox" name="show_difficulty" {% if contest.show_difficulty %}checked{% endif %}>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Show Stats:
+            </div>
+            <div class="col-8">
+              <input type="checkbox" name="show_stats" {% if contest.show_stats %}checked{% endif %}>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Use Global Stats:
+            </div>
+            <div class="col-8">
+              <input type="checkbox" name="use_global_stats" {% if contest.use_global_stats %}checked{% endif %}>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button class="btn primary-btn accent-hover-bg" type="submit">Save</button>
+    {% if show_problem_button %}<button class="btn secondary-btn accent-hover" type="button" onclick="listContestProblems({{contest.id}})">Edit Problems</button>{% endif %}
+    <button type="button" class="btn secondary-btn accent-hover" data-bs-dismiss="modal">Close</button>
+  </div>
+</form>

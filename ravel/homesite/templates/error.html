@@ -1,0 +1,28 @@
+{% extends 'home_base.html' %}
+{% load static %}
+{% load contest_tags %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row vert-center">
+    <div class="col-4">
+    </div>
+    <div class="col-4" style=" text-align: center;">
+      <div class="row">
+        <h4 class="secondary-text">Uh oh! How'd this happen?</h4>
+      </div>
+      <div class="row">
+        <h2 class="accent-text">{{error_message}}</h2>
+      </div>
+      <div class="row">
+        <p class="secondary-text"><i>If you believe this to be a mistake, please contact <!--support@ravelpt.dev-->a developer<i></p>
+      </div>
+      <div class="row">
+        <button type="button" class="btn secondary-background accent-text" onclick="history.back()">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

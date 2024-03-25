@@ -1,0 +1,59 @@
+<form class="" action="{% if in_system %} {% url 'contests:manage_system' %} {% else %} {% url 'contests:manage_class' %} {% endif %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="editor" value="member">
+  <input type="hidden" name="id" value="{{member.id}}">
+  <!-- modal header -->
+  <div class="modal-header">
+    <h2 class="primary-text">Editing {{ member.user.first_name }} {{ member.user.last_name }} <i>({{member.user.username}})</i></h2>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <div class="container">
+      {% if not in_system %}
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Manage Members: <input type="checkbox" name="manage_members" {% if member.manage_members %}checked{% endif %}>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Manage Problems: <input type="checkbox" name="manage_problems" {% if member.manage_problems %}checked{% endif %}>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Manage Contests: <input type="checkbox" name="manage_contests" {% if member.manage_contests %}checked{% endif %}>
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Username: <input type="text" name="username" value="{{member.user.username}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Class: <input type="text" name="class_code" value="{{member.user_class.class_code}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Teacher: <input type="checkbox" name="is_teacher" {% if member.is_teacher %}checked{% endif %}>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid secondary-text">
+          Staff: <input type="checkbox" name="is_staff" {% if member.user.is_staff %}checked{% endif %}>
+        </div>
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button class="btn primary-btn accent-hover" type="submit">Save</button>
+    <button type="button" class="btn secondary-btn accent-hover" data-bs-dismiss="modal">Close</button>
+  </div>
+</form>

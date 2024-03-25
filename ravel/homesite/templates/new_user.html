@@ -1,0 +1,161 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block title %}Ravel | Register{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row align-items-center">
+    <div class="col-sm-4">
+
+    </div>
+    <div class="col-sm-4" style="min-height: 100%; min-height: 90vh; display: flex; align-items: center;">
+      <form method="post">
+        {% csrf_token %}
+        <div class="container">
+
+          <div class="row" style="text-align: center">
+            <h2 class="primary-text">Create Account</h2>
+          </div>
+
+          <div class="row">
+            <p class="error">{{error}}</p>
+          </div>
+
+          <div class="row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="first_name">First Name:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="text" id="first_name" name="first_name" value="{{first_name.0}}" oninput=checkCriteria() required>
+            </div>
+          </div>
+
+          <div class="row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="last_name">Last Name:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="text" id="last_name" name="last_name" value="{{last_name.0}}" oninput=checkCriteria()>
+            </div>
+          </div>
+
+          <div class="row">
+            <p id="email_error" class="error">{{email_error}}</p>
+          </div>
+
+          <div class="row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="email">Email:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="text" id="email" name="email" value="{{email.0}}" oninput=checkCriteria() required>
+            </div>
+          </div>
+
+          <div class="row">
+            <p id="username_error" class="error">{{username_error}}</p>
+          </div>
+
+          <div class="row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="username">Username:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="text" id="username" name="username" value="{{username.0}}" oninput=checkCriteria() required>
+            </div>
+          </div>
+
+          <div class="row">
+            <p id="password_error" class="error">{{password_error}}</p>
+          </div>
+          <div class="row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="password">Password:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="password" id="password" name="password" value="" oninput=checkCriteria() required>
+            </div>
+          </div>
+
+          <div class="row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="re_password">Retype Password:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="password" id="re_password" name="re_password" value="" oninput=checkCriteria() required>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn primary-btn" id="create_btn" type="submit" disabled>Create</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const submit = $("#create_btn")
+
+  const p1 = $("#password")
+  const p2 = $("#re_password")
+  const pass_error = $("#password_error")
+
+  const first_name = $("#first_name")
+  const last_name = $("#last_name")
+
+  const email_re = new RegExp(/[a-zA-Z0-9._%+-~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/)
+  const email = $("#email")
+  const email_error = $("#email_error")
+
+  const username_re = new RegExp(/[a-zA-Z0-9@.+\-_]*/g)
+  const username = $("#username")
+  const username_error = $("#username_error")
+
+  function checkCriteria()
+  {
+    submit.attr("disabled", "disabled")
+
+    valid = true
+
+    if(p1.val().length < 8)
+    {
+      valid = false
+      pass_error.text("Password must be at least 8 characters.")
+    }
+    else if (p1.val() != p2.val())
+    {
+      valid = false
+      pass_error.text("Passwords do not match.")
+    }
+    else
+    {
+        pass_error.text("")
+    }
+
+    if (email_re.test(email.val()))
+    {
+      email_error.text("")
+    }
+    else
+    {
+      valid = false
+      email_error.text("Invalid email.")
+    }
+
+    if (username.val().match(username_re).length == 2)
+    {
+      username_error.text("")
+    }
+    else
+    {
+      valid = false
+      username_error.text("Invalid username. Only special characters @ . + - _ are allowed.")
+    }
+
+    if (first_name.val() == "" || last_name.val() == "")
+    {
+      valid = false
+    }
+
+    if (valid)
+    {
+      submit.removeAttr("disabled")
+    }
+
+  }
+
+</script>
+
+{% endblock %}

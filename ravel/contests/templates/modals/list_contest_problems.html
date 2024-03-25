@@ -1,0 +1,37 @@
+<!-- modal header -->
+  <div class="modal-header">
+    <h2 class="primary-text">Problems for {{contest.name}}</h2>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <table class="table">
+          <thead class="primary-text">
+            <th scope="col">#</th>
+            <th scope="col">Problem</th>
+            <th scope="col">Points</th>
+            <th scope="col">Penalty Points</th>
+            <th scope="col"></th>
+            <th scope="col"><button type="button" class="btn no-padding primary-text" onclick="editContestProblem({{contest.id}}, -1)"><span class="material-symbols-outlined">add</span></button></th>
+          </thead>
+          <tbody class="secondary-text">
+            {% for problem in problems %}
+            <tr id="contest-problem-{{problem.id}}">
+              <td>{{problem.problem_order}}</td>
+              <td>{{problem.problem.name}}</td>
+              <td>{{problem.point_value}}</td>
+              <td>{{problem.penalty_points}}</td>
+              <td><button type="button" class="btn no-padding secondary-text" onclick="editContestProblem({{contest.id}}, {{problem.id}})"><span class="material-symbols-outlined accent-hover">edit</span></button></td>
+              <td><button type="button" class="btn no-padding secondary-text" onclick="deleteContestProblem({{contest.id}}, {{problem.id}}, '{{problem.problem.name}}')"><span class="material-symbols-outlined accent-hover">delete</span></button></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button type="button" class="btn secondary-btn accent-hover" onclick="editContest({{contest.id}})">Back</button>
+  </div>

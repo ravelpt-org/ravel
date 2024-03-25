@@ -1,0 +1,48 @@
+{% extends 'card-item-templates/card-base.html' %}
+
+{% block content %}
+{% for contest in active_contests %}
+<div class="col-lg-3 col list-card">
+  <a type="button" class="item-card btn" href={% url 'contests:view_contest' contest.id %}>
+    <div class="row vert-justify" style="height: 46%;">
+      <h5 class="card-title primary-text">{{contest.name}}</h5>
+    </div>
+
+    <div class="row" style="height: 3%">
+
+      <div class="col-3">
+      </div>
+
+      <div class="col-6 text-center">
+        {% if contest.contest_class %}
+          <p class="secondary-text primary-badge">PRIVATE</p>
+        {% else %}
+          <p class="secondary-text accent-badge">GLOBAL</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row" style="height: 3%">
+    </div>
+
+    <hr class="accent">
+
+    <div style="align-items: center;">
+      <div class="row" style="height: 25%;">
+        <div class="row item-card-footer card-subtitle">
+          <div class="col-1">
+          </div>
+          <div class="col-5">
+            <h6 class="secondary-text">Starts at {{contest.start_time}}</h6>
+          </div>
+          <div class="col-5 ms-1">
+            <h6 class="secondary-text">Ends at {{contest.end_time}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+{% endfor %}
+
+{% endblock %}

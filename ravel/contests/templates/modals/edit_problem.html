@@ -1,0 +1,118 @@
+<form class="" action="{% if in_system %} {% url 'contests:manage_system' %} {% else %} {% url 'contests:manage_class' %} {% endif %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="editor" value="problem">
+  <input type="hidden" name="id" value="{{problem.id}}">
+  {% if mode == "Editing" %}<input type="hidden" name="editing" value="">{% endif %}
+  <!-- modal header -->
+  <div class="modal-header">
+    <h2 class="primary-text">{{mode}} Problem</h2>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Name:
+            </div>
+            <div class="col-9">
+              <input class="primary-background secondary-text" type="text" name="name" value="{{problem.name}}" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Description:
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="description" rows="8" cols="60" class="editor-textarea" >{{problem.description}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Input Description
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="input_description" rows="8" cols="60" class="editor-textarea" >{{problem.input_description}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Output Description
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="output_description" rows="8" cols="60" class="editor-textarea" >{{problem.output_description}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Sample Input:
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="sample_input" rows="8" cols="60" class="editor-textarea" >{{problem.sample_in}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Sample Output:
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="sample_output" rows="8" cols="60" class="editor-textarea" >{{problem.sample_out}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Input:
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="input" rows="8" cols="60" class="editor-textarea" >{{problem.input}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Output:
+            </div>
+            <div class="col-9">
+              <textarea class="primary-background secondary-text" name="output" rows="8" cols="60" class="editor-textarea" >{{problem.output}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Time Limit (Seconds):
+            </div>
+            <div class="col-9">
+              <input class="primary-background secondary-text" type="number" name="timeout" value="{{problem.timeout}}" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3 secondary-text">
+              Problem Difficulty:
+            </div>
+            <div class="col-9">
+              <select class="primary-background secondary-text" id="difficulty" name="difficulty">
+                <option value="1" {% if problem.difficulty == 1 %}selected{% endif %}>Easy</option>
+                <option value="2" {% if problem.difficulty == 2 %}selected{% endif %}>Medium</option>
+                <option value="3" {% if problem.difficulty == 3 %}selected{% endif %}>Hard</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button class="btn primary-btn accent-hover" type="submit">Save</button>
+    <button type="button" class="btn secondary-btn accent-hover" data-bs-dismiss="modal">Close</button>
+  </div>
+</form>

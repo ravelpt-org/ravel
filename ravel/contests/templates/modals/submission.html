@@ -1,0 +1,44 @@
+<form class="" action="{% url 'contests:contest_submit' contest.id %}" enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="problem" value="{{contest_problem.id}}">
+  <div class="modal-header">
+    <h2 class="primary-text">Submit for <i>{{contest_problem.problem.name}}</i></h2>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+
+      </div>
+      <div class="row">
+        <div class="input-group">
+            <select class="form-select secondary-background secondary-text" name="language" id="language">
+              {% for language in languages %}
+                <option value="{{language}}">{{language}}</option>
+              {% endfor %}
+            </select>
+        </div>
+        <div class="input-group">
+            <input type="file" class="form-control secondary-btn" name="fileUpload" value="" id="fileUpload">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button type="submit" class="btn primary-btn accent-hover-bg">Submit</button>
+    {% if page != None %}<button type="button" class="btn secondary-btn accent-hover" onclick="getProblem({{contest_problem.id}}, '{{return}}')">Back</button>
+    {% else %}<button type="button" class="btn secondary-btn accent-hover" data-bs-dismiss="modal">Close</button>{% endif %}
+  </div>
+</form>
+
+<script type="text/javascript">
+  pairs = {{languages | safe}}
+  document.getElementById('fileUpload').addEventListener('input', function (e) {
+    file = this.value.split(".").slice(-1)[0];
+    for (extension of Object.keys(pairs))
+    {
+        if (pairs[extension].includes(file)) { document.getElementById('language').value = extension; break;}
+    };
+  });
+</script>

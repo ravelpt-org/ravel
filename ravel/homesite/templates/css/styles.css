@@ -1,0 +1,196 @@
+.editor-textarea {
+  resize: none;
+}
+
+.textarea-readonly {
+  resize: none;
+  border: none;
+}
+
+.no-padding {
+  padding: 0px 0px 0px 0px;
+}
+
+.vert-center {
+  min-height: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+}
+
+.vert-justify {
+   display: flex;
+   align-items: center;
+   justify-items: center;
+}
+
+.item-card-footer {
+  vertical-align: middle;
+  text-align: center;
+}
+
+td, th {
+  vertical-align: middle;
+}
+
+.light-padded-row {
+  padding: 5px 5px 5px 5px;
+}
+
+.no-border {
+  border: none;
+}
+
+.item-card {
+  width: 15rem;
+  height: 18rem;
+  padding: 10px 10px 10px 10px;
+  border: 2px solid;
+  border-radius: 4px;
+  border-color: {{primary_border}};
+}
+
+hr {
+  border: 1px solid;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.primary-background {
+  background-color: {{primary}};
+}
+
+.secondary-background {
+    background-color: {{secondary}};
+}
+
+.accent-background {
+  background-color: {{accent}};
+}
+
+.primary {
+  color: {{primary}};
+}
+
+.secondary {
+  color: {{secondary}};
+}
+
+.accent {
+  color: {{accent}};
+}
+
+.primary-text {
+  color: {{primary_text}};
+}
+
+.secondary-text {
+  color: {{secondary_text}};
+}
+
+.accent-text {
+  color: {{accent}};
+}
+
+.primary-btn {
+  color: {{primary_text}};
+  background-color: {{primary}};
+}
+
+.secondary-btn {
+    color: {{secondary_text}};
+    background-color: {{secondary}};
+}
+
+.secondary-btn::file-selector-button {
+      color: {{secondary_text}};
+      background-color: {{secondary}};
+      transition: color .15s ease-in-out background-color .15s ease-in-out;
+}
+
+.secondary-btn:hover::file-selector-button {
+      color: {{accent}};
+      background-color: {{primary}}!important;
+}
+
+.secondary-btn:select::file-selector-button {
+      color: {{accent}};
+      background-color: {{primary}}!important;
+}
+
+.secondary-btn:focus {
+      color: {{secondary_text}};
+      background-color: {{secondary}}!important;
+}
+
+.secondary-border {
+  border-color: {{secondary}};
+}
+
+.accent-border {
+  border-color: {{accent}};
+  border-radius: 3%;
+}
+
+.accent-hover-bg:hover {
+  color: {{secondary_text}};
+  background-color: {{accent}};
+}
+
+.accent-hover:hover {
+  color: {{accent}};
+}
+
+.red-hover:hover{
+  color: red;
+}
+
+.primary-badge {
+  border: 2px solid;
+  border-radius: 15px;
+  font-size: 75%;
+  border-color: {{primary_border}};
+  background-color: {{primary}};
+}
+
+.accent-badge {
+  border: 2px solid;
+  border-radius: 15px;
+  font-size: 75%;
+  border-color: {{accent}};
+  background-color: {{primary}};
+}
+
+.red-badge {
+    border: 2px solid;
+    border-radius: 15px;
+    font-size: 75%;
+    border-color: red;
+}
+
+.yellow-badge {
+    border: 2px solid;
+    border-radius: 15px;
+    font-size: 75%;
+    border-color: yellow;
+}
+
+.green-badge {
+    border: 2px solid;
+    border-radius: 15px;
+    font-size: 75%;
+    border-color: green;
+}
+
+.list-card {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.centered-content {
+  justify-content: center;
+}

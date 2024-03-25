@@ -1,0 +1,227 @@
+{% extends 'contest_base.html' %}
+{% load static %}
+{% load contest_tags %}
+
+{% block title %}Ravel | Manage System{% endblock %}
+
+{% block content %}
+
+<!-- modal data -->
+<div class="modal fade" id="editorModal">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content secondary-background" id="editorModalContent">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <button type="button" name="user_button" class="btn secondary-btn" onclick="openUserManager()" data-bs-toggle="modal" data-bs-target="#editorModal">User Manager</button>
+    <button type="button" name="prob_button" class="btn secondary-btn" onclick="openProbManager()" data-bs-toggle="modal" data-bs-target="#editorModal">Problem Manager</button>
+    <button type="button" name="cont_button" class="btn secondary-btn" onclick="openContManager()" data-bs-toggle="modal" data-bs-target="#editorModal">Contest Manager</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+  const csrf_token = '{{csrf_token}}'
+  var problemIndex = 0;
+  var userIndex = 0;
+  var contestIndex = 0;
+
+  function editMember(user_id)
+  {
+    $.ajax({
+      url: "{% url 'contests:edit_member_modal' %}",
+      data: {'user': user_id, 'system': true},
+      success: function (data){
+        $("#editorModalContent").html(data);
+    }});
+  }
+
+  function editContest(contest_id)
+  {
+    $.ajax({
+      url: "{% url 'contests:edit_contest_modal' %}",
+      data: {'contest': contest_id, 'system': true},
+      success: function (data){
+        $("#editorModalContent").html(data);
+    }});
+  }
+
+  function listContestProblems(contest_id)
+  {
+    $.ajax({
+      url: "{% url 'contests:get_contest_problems' %}",
+      data: {'contest': contest_id},
+      success: function (data){
+        $("#editorModalContent").html(data);
+    }});
+  }
+
+  function editContestProblem(contest_id, problem_id)
+  {
+    $.ajax({
+      url: "{% url 'contests:edit_contest_problem' %}",
+      data: {'contest': contest_id, 'problem': problem_id, 'system': true},
+      success: function (data){
+        $("#editorModalContent").html(data);
+    }});
+  }
+
+  function editProblem(problem_id)
+  {
+    $.ajax({
+      url: "{% url 'contests:edit_problem_modal' %}",
+      data: {'problem': problem_id, 'system': true},
+      success: function (data){
+        $("#editorModalContent").html(data);
+    }});
+  }
+
+  function updateContestProblem(id, contest)
+  {
+    problem = $("#problem").val()
+    order = $("#order").val()
+    value = $("#value").val()
+    p_points = $("#penalty_points").val()
+
+      $.ajax({
+        url: "{% url 'contests:save_contest_problem' %}",
+        data: {'csrfmiddlewaretoken': csrf_token, 'id': id, 'contest_id': contest, 'problem': problem, 'order': order, 'value': value, 'penalty_points': p_points},
+        method: "POST",
+        success: function (data){
+          $("#editorModalContent").html(data);
+      }});
+    }
+
+  function kickMember(user_id, username)
+  {
+    if (confirm("Are you sure you want to kick "+ username +" from this class?"))
+    {
+      $.ajax({
+        url: "{% url 'contests:kick_member' %}",
+        data: {'csrfmiddlewaretoken': csrf_token, 'user': user_id},
+        method: "POST",
+        success: function (data){
+          $("#member-"+user_id).remove();
+      }});
+    }
+  }
+
+  function deleteContest(contest_id, contest_name)
+  {
+    if (confirm("Are you sure you want to delete \""+ contest_name +"\" ?"))
+    {
+      $.ajax({
+        url: "{% url 'contests:delete_contest' %}",
+        data: {'csrfmiddlewaretoken': csrf_token, 'contest': contest_id},
+        method: "POST",
+        success: function (data){
+          $("#contest-"+contest_id).remove();
+      }});
+    }
+  }
+
+  function deleteProblem(problem_id, problem_name)
+  {
+    if (confirm("Are you sure you want to delete \""+ problem_name +"\" ?"))
+    {
+      $.ajax({
+        url: "{% url 'contests:delete_problem' %}",
+        data: {'csrfmiddlewaretoken': csrf_token, 'problem': problem_id},
+        method: "POST",
+        success: function (data){
+          $("#problem-"+problem_id).remove();
+      }});
+    }
+  }
+
+  function deleteContestProblem(contest_id, problem_id, problem_name)
+  {
+    if (confirm("Are you sure you want to remove \"" + problem_name +"\" from this contest?"))
+    {
+      $.ajax({
+        url: "{% url 'contests:delete_contest_problem' %}",
+        data: {'csrfmiddlewaretoken': csrf_token, 'contest': contest_id, 'problem': problem_id},
+        method: "POST",
+        success: function (data){
+          $("#contest-problem-"+problem_id).remove();
+      }});
+    }
+  }
+
+  function openUserManager()
+  {
+      userIndex = 10;
+      $.ajax({
+        url: "{% url 'contests:get_sys_users' %}",
+        data: {"as_modal": true},
+        success: function (data){
+          $("#editorModalContent").html(data);
+        }
+      })
+  }
+
+  function openProbManager()
+  {
+    problemIndex = 10;
+    $.ajax({
+      url: "{% url 'contests:get_sys_problems' %}",
+      data: {"as_modal": true},
+      success: function (data){
+        $("#editorModalContent").html(data);
+      }
+    })
+  }
+
+  function openContManager()
+  {
+    contestIndex = 10;
+    $.ajax({
+      url: "{% url 'contests:get_sys_contests' %}",
+      data: {"as_modal": true},
+      success: function (data){
+        $("#editorModalContent").html(data);
+      }
+    })
+  }
+
+  function getUsers(count)
+  {
+    $.ajax({
+      url: "{% url 'contests:get_sys_users' %}",
+      data: {"start": userIndex, "count": 10},
+      success: function (data){
+        $("#userTable").append(data);
+      }
+    })
+    userIndex += count;
+  }
+
+  function getProblems(count)
+  {
+    $.ajax({
+      url: "{% url 'contests:get_sys_problems' %}",
+      data: {"start": problemIndex, "count": 10},
+      success: function (data){
+        $("#problemTable").append(data);
+      }
+    })
+    problemIndex += count;
+  }
+
+  function getContests(count)
+  {
+    $.ajax({
+      url: "{% url 'contests:get_sys_contests' %}",
+      data: {"start": contestIndex, "count": 10},
+      success: function (data){
+        $("#contestTable").append(data);
+      }
+    })
+    contestIndex += count;
+  }
+
+</script>
+
+{% endblock %}

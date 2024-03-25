@@ -1,0 +1,55 @@
+{% extends 'card-item-templates/card-base.html' %}
+{% load contest_tags %}
+
+{% block content %}
+{% for problem in problems %}
+  <!-- {{problem.problem.name}} -->
+  <div class="col-lg-3 col list-card">
+    <button type="button" class="btn item-card" onclick="getProblem({{problem.id}}, 'desc')" data-bs-toggle="modal" data-bs-target="#problemModal">
+      <div class="row" style="height: 46%; display: flex; align-items: center; justify-items: center;">
+          <h5 class="card-title primary-text">{{problem.problem.name}}</h5>
+      </div>
+      <div class="row" style="height: 3%;">
+        <div class="col-3">
+        </div>
+        <div class="col-6 text-center">
+          {% if contest.show_difficulty %}
+            {% if problem.problem.difficulty == 1 %}
+              <p class="secondary-text green-badge">EASY</p>
+            {% elif problem.problem.difficulty == 2 %}
+              <p class="secondary-text yellow-badge">MEDIUM</p>
+            {% else %}
+              <p class="secondary-text red-badge">HARD</p>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+        <hr class="accent">
+      <div class="row" style="height: 25%;">
+          <div class="row card-subtitle mb-2">
+            <div class="col-6"">
+              <h6 class="secondary-text">{{problem.point_value}} Point{% if problem.point_value != 1 %}s{% endif %}</h6>
+            </div>
+            <div class="col-6">
+              <h6 class="secondary-text">{{problem.penalty_points}} Penalty Points</h6>
+            </div>
+          </div>
+      </div>
+      <div class="row secondary-text" style="height: 25%; text-align: center;">
+        {% if contest.show_stats %}
+          <div class="col-4" style="color: green">
+            {% get_problem_correct problem contest.show_stats %}
+          </div>
+          <div class="col-4">
+            {% get_problem_accuracy problem contest.show_stats %}%
+          </div>
+          <div class="col-4" style="color: red">
+            {% get_problem_wrong problem contest.show_stats %}
+          </div>
+        {% endif %}
+      </div>
+    </button>
+  </div>
+{% endfor %}
+
+{% endblock %}

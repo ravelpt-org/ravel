@@ -1,0 +1,10 @@
+{% extends 'modals/problem_base.html' %}
+{% load static %}
+
+{% block title %}{{problem.name}}{% endblock %}
+
+{% block content %}
+<div class="row secondary-text">
+  {{problem.description|linebreaks}}
+</div>
+{% endblock %}

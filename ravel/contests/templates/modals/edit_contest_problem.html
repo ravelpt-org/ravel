@@ -1,0 +1,61 @@
+<form id="contestProblemForm">
+  {% csrf_token %}
+  <!-- modal header -->
+  <div class="modal-header">
+    <h2 class="primary-text">{{mode}} Contest Problem</h2>
+  </div>
+  <!-- modal body -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-4 secondary-text">
+              Problem
+            </div>
+            <div class="col-8">
+              <select class="form-select primary-background secondary-text" name="problem" id="problem" required>
+                {% for problem in problems %}
+                  <option value="{{problem.id}}" {% if problem.id is current_problem.problem.id %}selected{% endif %}>{{problem.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Order
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="number" name="order" id="order" value="{{current_problem.problem_order}}" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Problem Value
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="number" name="value" id="value" value="{{current_problem.point_value}}" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 secondary-text">
+              Penalty Points
+            </div>
+            <div class="col-8">
+              <input class="primary-background secondary-text" type="number" name="penalty_points" id="penalty_points" value="{{current_problem.penalty_points}}" required>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal footer -->
+  <div class="modal-footer">
+    <button class="btn primary-btn accent-hover" type="button" onclick="updateContestProblem('{{current_problem_id}}', {{contest.id}})">Save</button>
+    <button type="button" class="btn secondary-btn accent-hover" onclick="listContestProblems({{contest.id}})">Back</button>
+  </div>
+</form>

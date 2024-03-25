@@ -1,0 +1,30 @@
+<!-- modal body -->
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="container-fluid">
+        <h2 class="primary-text">{% block title %}{% endblock %}</h2>
+      </div>
+    </div>
+    <div class="row" style="padding-bottom: 10px">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <button type="button" class="nav-link accent-text accent-hover-bg {% if page == 'desc' %}secondary-background{% endif %}" onclick="getProblem({{contest_problem.id}}, 'desc')">Problem</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link accent-text accent-hover-bg {% if page == 'inout' %}secondary-background{% endif %}" onclick="getProblem({{contest_problem.id}}, 'inout')">Input/Output</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link accent-text accent-hover-bg {% if page == 'sample' %}secondary-background{% endif %}" onclick="getProblem({{contest_problem.id}}, 'sample')">Sample Cases</button>
+          </li>
+        </ul>
+    </div>
+    {% block content %}
+    {% endblock %}
+  </div>
+</div>
+<!-- modal footer -->
+<div class="modal-footer">
+  <button type="button" class="btn primary-btn accent-hover" onclick="getProblem({{contest_problem.id}}, 'submit', '{{page}}')">Upload Submission</button>
+  <button type="button" class="btn secondary-btn accent-hover" data-bs-dismiss="modal">Close</button>
+</div>

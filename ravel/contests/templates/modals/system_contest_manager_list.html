@@ -1,0 +1,11 @@
+{% load contest_tags %}
+
+{% for contest in contests %}
+<tr id="contest-{{contest.id}}">
+  <td>{{contest.name}}</td>
+  <td>{% get_problem_count contest %}</td>
+  <td>{% get_user_count contest %}</td>
+  <td><button type="button" class="btn no-padding secondary-text" onclick="editContest({{contest.id}})"><span class="material-symbols-outlined accent-hover">edit</span></button></td>
+  <td><button type="button" class="btn no-padding secondary-text" onclick="deleteContest({{contest.id}}, '{{contest.name}}')"><span class="material-symbols-outlined accent-hover">delete</span></button></td>
+</tr>
+{% endfor %}

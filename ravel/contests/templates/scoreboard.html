@@ -1,0 +1,36 @@
+{% extends 'contest_base.html' %}
+{% load static %}
+
+{% block title %}{{contest.name}} | Scoreboard{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <table class="table">
+      <thead class="secondary-background secondary-text">
+        <th scope="col" style="text-align: center;">#</th>
+        <th scope="col" style="text-align: center; width: 20%"></th>
+        {% for problem in problem_set %}
+        <th scope="col" style="text-align: center; width: 15%">{{problem.problem.name}}</th>
+        {% endfor %}
+        <th scope="col" style="text-align: center;">Score</th>
+      </thead>
+      <tbody class="secondary-text">
+        {% for score in users %}
+        <tr>
+          <th scope="row" style="text-align: center;">{{ forloop.counter }}</th>
+          <td style="text-align: center;">{{score.name}}</td>
+          {% for problem in score.sorted_scores %}
+          <td style="text-align: center;  {% if problem.is_pending %} background-color: yellow; color: black; {% elif problem.is_first_solve %} background-color: green; color:black; {% elif problem.correct_attempts > 0 %} background-color: #33cc00; color: black; {% elif problem.wrong_attempts > 0 %}background-color: red; color: black;{% endif %}">{% if problem.total_attempts > 0 %}{{problem.total_attempts}} | {{problem.total_points}}{% else %} - {% endif %}</td>
+          {% endfor %}
+          <td style="text-align: center;">{{score.total_solves}} | {{score.total_points}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}

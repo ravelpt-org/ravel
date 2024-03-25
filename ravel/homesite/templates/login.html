@@ -1,0 +1,53 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block title %}Ravel | Login{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row align-items-center">
+    <div class="col-4">
+
+    </div>
+    <div class="col-4" style="min-height: 100%; min-height: 90vh; display: flex; align-items: center;">
+      <form method="post">
+        {% csrf_token %}
+        <div class="container">
+          <div class="row light-padded-row" style="text-align: center">
+            <h2 class="primary-text">Login</h2>
+          </div>
+          <div class="row">
+            <p class="error">{% if error %}Incorrect username or password.{% endif %}</p>
+          </div>
+          <div class="row light-padded-row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="password">Username:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="text" id="username" name="username" value="" placeholder="Username">
+            </div>
+          </div>
+          <div class="row light-padded-row" style="padding-bottom: 4px">
+            <label class="col-4 secondary-text" for="password">Password:</label>
+            <div class="col-8">
+              <input class="secondary-background secondary-text accent-border" type="password" id="password" name="password" value="" placeholder="Password">
+            </div>
+          </div>
+          <div class="row light-padded-row">
+            <button class="btn primary-text accent-hover" type="submit">Login</button>
+          </div>
+          <div class="row light-padded-row">
+            <div class="col-3"></div>
+            <div class="col-8">
+              <a href={% url 'homesite:create_account' %}>
+                <button type="button" class="btn secondary-text accent-hover">Create Account</button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

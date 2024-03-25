@@ -1,0 +1,11 @@
+{% load contest_tags %}
+
+{% for problem in problems %}
+<tr id="problem-{{problem.id}}">
+  <td>{{problem.name}}</td>
+  <td>{{problem.get_total_attempts}}</td>
+  <td>{% get_problem_accuracy problem false %}%</td>
+  <td><button type="button" class="btn no-padding secondary-text" onclick="editProblem({{problem.id}})"><span class="material-symbols-outlined accent-hover">edit</span></button></td>
+  <td><button type="button" class="btn no-padding secondary-text" onclick="deleteProblem({{problem.id}}, '{{problem.name}}')"><span class="material-symbols-outlined accent-hover">delete</span></button></td>
+</tr>
+{% endfor %}

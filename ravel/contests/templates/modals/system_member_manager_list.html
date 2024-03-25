@@ -1,0 +1,11 @@
+{% for member in members %}
+<tr id="member-{{member.id}}">
+  <td>{{member.user.first_name}} {{member.user.last_name}}</td>
+  <td>{{member.user.username}}</td>
+  <td>{{member.user_class.class_code}}</td>
+  <td><span class="material-symbols-outlined">{% if member.is_teacher %}done{% else %}close{% endif %}</span></td>
+  <td><span class="material-symbols-outlined">{% if member.user.is_staff %}done{% else %}close{% endif %}</span></td>
+  <td><button type="button" class="btn no-padding secondary-text" onclick="editMember({{member.id}})"><span class="material-symbols-outlined accent-hover">edit</span></button></td>
+  <td><button type="button" class="btn no-padding secondary-text" onclick="deleteMember({{member.id}}, '{{member.name}}')"><span class="material-symbols-outlined accent-hover">delete</span></button></td>
+</tr>
+{% endfor %}

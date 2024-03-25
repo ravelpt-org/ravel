@@ -1,0 +1,69 @@
+{% extends 'contest_base.html' %}
+{% load static %}
+
+{% block title %}{{contest.name}} | Problems{% endblock %}
+
+{% block content %}
+
+<!-- modal data -->
+<div class="modal fade" id="problemModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content secondary-background" id="problemModalContent">
+        </div>
+    </div>
+</div>
+
+
+<!-- contest data -->
+<div class="container">
+    <div class="row">
+      <div class="col-2">
+      </div>
+      <div class="col-8" style="text-align: center;">
+        <div class="row">
+          <h3 class="primary-text">{{contest.name}}</h3>
+        </div>
+        <hr class="accent">
+        <div class="row secondary-text">
+          <div class="col-6">
+            Starts: {{contest.start_time}}
+          </div>
+          <div class="col-6">
+            Ends: {{contest.end_time}}
+          </div>
+          <!--<div class="col-sm-4">
+            Freezes at: {{contest.freeze}}
+          </div>-->
+        </div>
+        <hr class="accent">
+      </div>
+    </div>
+    {% if contest_hidden %}
+    <div class="row">
+      <h4 class="secondary-text text-center">This contest hasn't opened yet.</h4>
+    </div>
+    {% endif %}
+    <div class="row">
+      <div class="col-1">
+      </div>
+      <div class="col-10">
+        {{ problems | safe }}
+      </div>
+    </div>
+</div>
+
+<script>
+  function getProblem(problem_id, page, return_page="")
+  {
+    $.ajax({
+      url: "{% url 'contests:get_problem_modal' %}",
+      data: {'problem': problem_id, 'contest': '{{contest.id}}', 'page': page, 'return': return_page},
+      success: function (data){
+        $("#problemModalContent").html(data);
+    }});
+  }
+</script>
+
+
+
+{% endblock %}

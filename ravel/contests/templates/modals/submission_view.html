@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h2 class="primary-text">Attempt for <i>{{submission.problem.problem.name}}</i></h2>
+</div>
+<!-- modal body -->
+<div class="modal-body">
+  <div class="container">
+    <div class="row" style="text-align: center;">
+      <table class="table secondary-text">
+        <td>Status: {% if submission.pending %}Pending{% else %}Judged{% endif %}</td>
+        <td>{% if not submission.pending %}Solved: {{submission.solved}}{% endif %}</td>
+        <td>Language: {{submission.language}}</td>
+        <td>Submitted: {{submission.time}}</td>
+      </table>
+    </div>
+    <div class="row">
+      <textarea rows="8" cols="80" class="textarea-readonly secondary-background secondary-text" readonly>{{submission.submission}}</textarea>
+    </div>
+    <hr class="accent">
+    <div class="row">
+      <p class="secondary-text">Error:</p>
+      <textarea rows="8" cols="80" class="textarea-readonly secondary-background secondary-text" readonly >{{submission.error}}</textarea>
+    </div>
+  </div>
+</div>
+<!-- modal footer -->
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary accent-hover" data-bs-dismiss="modal">Close</button>
+</div>

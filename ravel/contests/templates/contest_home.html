@@ -1,0 +1,105 @@
+{% extends 'contest_base.html' %}
+
+{% block title %}Ravel | Contests{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  {% if has_no_class %}
+  <div class="row">
+    <div class="col-sm-4">
+    </div>
+    <div class="col-sm-4">
+      <form class="alert accent" style="border: 1px solid; " action="{% url 'contests:contests' %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col" style="text-align: center;">
+            <h5 class="primary-text">Looks like you aren't in a class yet... join one here!</h5>
+          </div>
+        </div>
+        <div class="row" style="align-items: center; justify-items: center;">
+          <div class="col-sm-2">
+          </div>
+          <div class="col-sm-6" style="align: center;">
+            <input type="text" name="class_code" class="secondary-text secondary-background no-border" placeholder="Class Code" maxlength="10">
+          </div>
+          <div class="col-sm-4">
+            <button type="submit" class="btn secondary-btn" name="button">Join</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="text-align: center;">
+            <p class="secondary-text" style="font-size: 90%"><i>If you don't know your class code, your teacher will have it.</i></p>
+          </div>
+        </div>
+        {% if join_error %}
+        <div class="row">
+          <div class="col error">
+            Incorrect code. Please try again.
+          </div>
+        </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+  {% elif join_success %}
+  <div class="row" style="text-align: center; color: green;">
+    <div class="col">
+      You've successfully joined {{class.class_code}}
+    </div>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-8" style="text-align: center;">
+      <hr class="accent">
+      <div class="row primary-text">
+        <h3>Active Contests</h3>
+      </div>
+      <hr class="accent">
+    </div>
+  </div>
+  {{ active_contests | safe}}
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-8" style="text-align: center;">
+      <hr class="accent">
+      <div class="row primary-text">
+        <h3>Completed Contests</h3>
+      </div>
+      <hr class="accent">
+    </div>
+  </div>
+  {{ completed_contests | safe }}
+    <div class="row text-center" id="loading_text" hidden>
+      <hr class="accent">
+      <h4 class="secondary-text">Loading...</h4>
+    </div>
+  </div>
+
+<script>
+  let index = 1
+  const completed_contests = $("#completed_contests")
+  const loading_text = $("#loading_text")
+
+  addEventListener("scrollend", (event) =>
+  {
+    if ($(window).scrollTop() + $(window).height() == $(document).height())
+    {
+      loading_text.attr("hidden", "hidden")
+      $.ajax({
+        url: "{% url 'contests:load_more_completed' %}",
+        data: {'index': index },
+        method: "get",
+        success: function (data){
+          completed_contests.append(data);
+          index += 1;
+          loading_text.removeAttr("disabled")
+      }});
+    }
+  });
+</script>
+
+{% endblock %}

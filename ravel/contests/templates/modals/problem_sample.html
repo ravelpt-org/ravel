@@ -1,0 +1,17 @@
+{% extends 'modals/problem_base.html' %}
+{% load static %}
+{% load contest_tags %}
+
+{% block title %}{{problem.name}}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <h4 class="secondary-text">Input</h4>
+  <textarea class="textarea-readonly secondary-background secondary-text" rows={% get_rows problem.sample_in %} cols="80" readonly>{{problem.sample_in}}</textarea>
+</div>
+<hr>
+<div class="row">
+  <h4 class="secondary-text">Output</h4>
+  <textarea class="textarea-readonly secondary-background secondary-text" rows={% get_rows problem.sample_out %} cols="80" readonly>{{problem.sample_out}}</textarea>
+</div>
+{% endblock %}

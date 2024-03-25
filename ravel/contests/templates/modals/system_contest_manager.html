@@ -1,0 +1,36 @@
+{% load contest_tags %}
+
+<!-- modal header -->
+<div class="modal-header">
+  <h2 class="primary-text">System Contests</h2>
+</div>
+<!-- modal body -->
+<div class="modal-body">
+  <div class="container">
+    <table class="table" style="text-align: center">
+      <thead class="primary-text secondary-background">
+        <th scope="col">Name</th>
+        <th scope="col">Problem Count</th>
+        <th scope="col">User Count</th>
+        <th scope="col"></th>
+        <th scope="col"><button type="button" class="btn no-padding primary-text" onclick="editContest(-1)"><span class="material-symbols-outlined accent-hover">add</span></button></th>
+      </thead>
+      <tbody class="secondary-text" id="contestTable">
+        {% for contest in contests %}
+        <tr id="contest-{{contest.id}}">
+          <td>{{contest.name}}</td>
+          <td>{% get_problem_count contest %}</td>
+          <td>{% get_user_count contest %}</td>
+          <td><button type="button" class="btn no-padding secondary-text" onclick="editContest({{contest.id}})"><span class="material-symbols-outlined accent-hover">edit</span></button></td>
+          <td><button type="button" class="btn no-padding secondary-text" onclick="deleteContest({{contest.id}}, '{{contest.name}}')"><span class="material-symbols-outlined accent-hover">delete</span></button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- modal footer -->
+<div class="modal-footer">
+  <button class="btn primary-btn accent-hover" type="button" onclick="getContests(10)">Load More</button>
+  <button type="button" class="btn secondary-btn accent-hover" data-bs-dismiss="modal">Close</button>
+</div>

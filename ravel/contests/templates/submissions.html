@@ -1,0 +1,128 @@
+{% extends 'contest_base.html' %}
+{% load static %}
+{% load contest_tags %}
+
+{% block title %}{{contest.name}} | Submit{% endblock %}
+
+{% block content %}
+
+<!-- modal data -->
+<div class="modal fade" id="submissionModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content secondary-background" id="submissionModalContent">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  <div class="row" style="padding: 10px 10px 10px 10px">
+    <div class="col-8">
+      <!-- Problem Submission -->
+      <div class="row"  style="height:100%;">
+        <div class="row" style="text-align: center;">
+          <h2 class="primary-text">Problem Submission</h2>
+        </div>
+        {% if has_submission_error %}
+        <div class="row">
+          <p class="error">{{submission_error}}</p>
+        </div>
+        {% endif %}
+        <div class="row">
+          <form action="{% url 'contests:contest_submit' contest.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container">
+              <div class="row">
+                <div class="row" style="padding: 5px 5px 5px 5px;">
+                  <div class="input-group">
+                      <select class="form-select secondary-background secondary-text" name="problem" id="problem">
+                        {% for problem in problems %}
+                          <option value="{{problem.id}}">{{problem.problem.name}}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+                  <div class="row" style="padding: 5px 5px 5px 5px;">
+                  <div class="col-6">
+                    <div class="input-group">
+                      <span class="input-group-text secondary-background secondary-text">Language</span>
+                      <select class="form-select secondary-background secondary-text" name="language" id="language">
+                        {% for language in languages.keys %}
+                          <option value="{{language}}">{{language}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <input type="file" class="form-control secondary-btn file-upload" name="fileUpload" value="" id="fileUpload">
+                  </div>
+                </div>
+                <div class="row" style="padding-top: 15px">
+                  <div class="col-4">
+
+                  </div>
+                  <div class="col-4">
+                    <button type="submit" class="btn primary-btn accent-hover" style="width: 100%; height: 100%">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr class="accent">
+      <!-- Judge Clarification (WIP) -->
+      <div class="row" style="height: 25%;">
+        <!-- <div class="row" style="text-align: center;">
+          <h2>Judge Clairification</h2>
+        </div> -->
+      </div>
+    </div>
+    <div class="col-4">
+      <!-- Submissions -->
+      <div class="row">
+        <table class="table table-borderless">
+          <tbody>
+              {% for submission in submissions %}
+              <tr>
+                <td>
+                  <div class="row" style="background-color: {% if submission.pending %}#F0F4BA{% elif submission.solved %}#E1F7E9{% else %}#F3CFD9{% endif %}; border: solid 2px; border-color: {% if submission.pending %}#EFF24B{% elif submission.solved %}#00CC66{% else %}#FF0000{% endif %}; height: 50px">
+                    <button class="btn" style="border: none;" onclick="getSubmission({{submission.id}})"  data-bs-toggle="modal" data-bs-target="#submissionModal">{{submission.problem.problem.name}}</button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getSubmission(submission_id) {
+    $.ajax({
+      url: "{% url 'contests:get_submission_modal' %}",
+      data: {'submission': submission_id, 'contest': '{{contest.id}}'},
+      success: function (data){
+        $("#submissionModalContent").html(data);
+    }});
+  }
+
+  function askClarification()
+  {
+
+  }
+
+  pairs = {{languages | safe}}
+  document.getElementById('fileUpload').addEventListener('input', function (e) {
+    file = this.value.split(".").slice(-1)[0];
+    for (extension of Object.keys(pairs))
+    {
+        if (pairs[extension].includes(file)) { document.getElementById('language').value = extension; break;}
+    };
+  });
+
+
+</script>
+
+{% endblock %}

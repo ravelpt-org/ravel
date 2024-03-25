@@ -1,0 +1,8 @@
+/venv/*
+/.idea/*
+*/.idea/*
+/__pycache__/*
+*.pyc
+dev-credentials
+*.sqlite3*
+ravel/db.sqlite3

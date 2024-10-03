@@ -1,3 +1,5 @@
 django
 django-debug-toolbar
 Pillow
+gunicorn
+psycopg2-binary

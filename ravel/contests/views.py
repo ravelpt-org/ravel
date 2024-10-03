@@ -20,7 +20,7 @@ from datetime import datetime
 import hashlib
 import json
 
-SUPPORTED_JUDGE_LANGUAGES = {"Python": ["py"], "Java": ["java"]}
+SUPPORTED_JUDGE_LANGUAGES = {"Python": ["py"], "Java": ["java"], "Cpp": ["cpp"]}
 
 
 #  "CPP": ["cpp"]

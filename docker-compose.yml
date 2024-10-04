@@ -1,0 +1,42 @@
+services:
+  web:
+    build: .
+    command: gunicorn ravel.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./ravel/prod-files:/app/ravel/prod-files  # Mount static files
+    env_file:
+      - .env
+    depends_on:
+      - db
+    expose:
+      - "8000"
+    restart: always
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile  # Caddy configuration
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./ravel/prod-files:/srv  # Serve static files
+    depends_on:
+      - web
+    restart: always
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

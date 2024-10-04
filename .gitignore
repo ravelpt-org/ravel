@@ -6,3 +6,5 @@
 dev-credentials
 *.sqlite3*
 ravel/db.sqlite3
+db.sqlite
+.env

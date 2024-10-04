@@ -1,0 +1,10 @@
+localhost {
+    handle_path /static/* {
+		file_server {
+			root "/srv"
+		}
+	}
+
+    reverse_proxy web:8000
+    encode gzip
+}

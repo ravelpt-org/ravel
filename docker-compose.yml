@@ -1,6 +1,6 @@
 services:
   web:
-    build: .
+    image: ghcr.io/ravelpt-org/ravel:1.0.0-rc1
     command: gunicorn ravel.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./ravel/prod-files:/app/ravel/prod-files  # Mount static files

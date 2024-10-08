@@ -1,4 +1,4 @@
-localhost {
+ravelpt.dev, www.ravelpt.dev, localhost {
     handle_path /static/* {
 		file_server {
 			root "/srv"
@@ -7,4 +7,10 @@ localhost {
 
     reverse_proxy web:8000
     encode gzip
+
+    log {
+        output file /var/log/caddy/access.log
+        level info
+    }
+
 }
